@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Provider } from 'mobx-react'
 
-import counterStore from './store/counter'
+import InvoiceStore from './store/invoiceStore'
 
 import './app.scss'
 
 const store = {
-  counterStore
+  invoiceStore:new InvoiceStore,
 }
 
 class App extends Component {
@@ -21,7 +21,7 @@ class App extends Component {
   // this.props.children 就是要渲染的页面
   render () {
     return (
-      <Provider store={store}>
+      <Provider {...store}>
         {this.props.children}
       </Provider>
     )

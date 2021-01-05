@@ -1,60 +1,56 @@
 import React, { Component } from 'react'
-import { View, Button, Text } from '@tarojs/components'
+import { View , Picker, Button } from '@tarojs/components'
 import { observer, inject } from 'mobx-react'
+
+import InvoiceStore from '../../store/invoiceStore'
 
 import './index.scss'
 
-type PageStateProps = {
-  store: {
-    counterStore: {
-      counter: number,
-      increment: Function,
-      decrement: Function,
-      incrementAsync: Function
-    }
-  }
+interface InvoiceProps{}
+
+
+interface InvoiceState{
+  /**园区id */
+  parkId:string;
 }
 
-interface Index {
-  props: PageStateProps;
+
+interface Invoice extends InvoiceProps{
+  invoiceStore:InvoiceStore
 }
 
-@inject('store')
+@inject('invoiceStore')
 @observer
-class Index extends Component {
-  componentWillMount () { }
+class Index extends Component<InvoiceProps, InvoiceState> {
+  
 
-  componentDidMount () { }
+   
 
-  componentWillUnmount () { }
+  //  constructor(props){
+  //    super(props)
+  //    this.state={
+  //      parkId: this.inject.invoiceStore.parkList
+  //    }
+  //  }
+     
+   get inject(){
+    return this.props as Invoice
+   }
 
-  componentDidShow () { }
 
-  componentDidHide () { }
+   handleList(){
+     console.log('触发')
+     this.inject.invoiceStore.getParkListData({url:'getParkList' })
+   }
 
-  increment = () => {
-    const { counterStore } = this.props.store
-    counterStore.increment()
-  }
 
-  decrement = () => {
-    const { counterStore } = this.props.store
-    counterStore.decrement()
-  }
 
-  incrementAsync = () => {
-    const { counterStore } = this.props.store
-    counterStore.incrementAsync()
-  }
+
 
   render () {
-    const { counterStore: { counter } } = this.props.store
     return (
       <View className='index'>
-        <Button onClick={this.increment}>+</Button>
-        <Button onClick={this.decrement}>-</Button>
-        <Button onClick={this.incrementAsync}>Add Async</Button>
-        <Text>{counter}</Text>
+       <Button onClick={()=>{this.handleList()}}>测试</Button>
       </View>
     )
   }
